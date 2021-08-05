@@ -45,8 +45,8 @@ const moviesController = {
         res.render('moviesAdd');
     },
     create: function (req, res) {
-       // const {title, rating, awards, release_date, length} = req.body;
-        db.Movie.create(req.body);
+       const {title, rating, awards, release_date, length} = req.body;
+        db.Movie.create({title, rating, awards, release_date, length});
         res.redirect('/movies');
     },
     edit: function(req, res) {
