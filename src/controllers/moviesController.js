@@ -57,14 +57,18 @@ const moviesController = {
     update: async function (req,res) {
         const {id} = req.params;
         const {title, rating, awards, release_date, length} = req.body;
-       await db.Movie.update({title, rating, awards, release_date, length}, { where: {id}});
+       await db.Movie.update({title, rating, awards, release_date, length}, { where: { id }});
         res.redirect('/movies');
     },
-    delete: function (req, res) {
-        // TODO
+    delete: async function (req, res) {
+        const {id} = req.params;
+        const Movie = await db.Movie.findByPk(id);
+        res.render('moviesDelete', {Movie});
     },
-    destroy: function (req, res) {
-        // TODO
+    destroy: async function (req, res) {
+        const {id} = req.params;
+        await db.Movie.destroy({ where: { id }});
+        res.redirect('/movies');
     }
 
 }
