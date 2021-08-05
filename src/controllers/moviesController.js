@@ -44,16 +44,21 @@ const moviesController = {
     add: function (req, res) {
         res.render('moviesAdd');
     },
-    create: function (req, res) {
+    create: async function (req, res) {
        const {title, rating, awards, release_date, length} = req.body;
-        db.Movie.create({title, rating, awards, release_date, length});
+       await db.Movie.create({title, rating, awards, release_date, length});
         res.redirect('/movies');
     },
-    edit: function(req, res) {
-        // TODO
+    edit: async function(req, res) {
+        const {id} = req.params;
+        const Movie = await db.Movie.findByPk(id);
+        res.render('moviesEdit', {Movie});
     },
-    update: function (req,res) {
-        // TODO
+    update: async function (req,res) {
+        const {id} = req.params;
+        const {title, rating, awards, release_date, length} = req.body;
+       await db.Movie.update({title, rating, awards, release_date, length}, { where: {id}});
+        res.redirect('/movies');
     },
     delete: function (req, res) {
         // TODO
