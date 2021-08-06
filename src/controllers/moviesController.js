@@ -68,13 +68,17 @@ const moviesController = {
 
         res.redirect(`/movies`);
     },
-    delete: function (req, res) {
-        // TODO
+    delete: async function (req, res) {
+        const Movie = await db.Movie.findByPk(req.params.id);
+        res.render('moviesDelete', {Movie});
     },
-    destroy: function (req, res) {
-        // TODO
+    destroy: async function (req, res) {
+        await db.Movie.destroy({
+            where: {id: req.params.id}
+        })
+        res.redirect('/movies');
     }
 
 }
 
-module.exports = moviesController;
+module.exports = moviesController;  
