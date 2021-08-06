@@ -51,11 +51,22 @@ const moviesController = {
 
        res.redirect("/movies")
     },
-    edit: function(req, res) {
-        // TODO
+    edit: async function(req, res) {
+        const Movie = await db.Movie.findByPk(req.params.id);
+
+        res.render('moviesEdit', {Movie});
     },
-    update: function (req,res) {
+    update: async function (req,res) {
         // TODO
+        await db.Movie.update(
+            req.body,
+            {
+                where:{
+                    id: req.params.id
+                }
+        });
+
+        res.redirect(`/movies`);
     },
     delete: function (req, res) {
         // TODO
